@@ -1,0 +1,38 @@
+name: Trusted manual Windows build
+on:
+  workflow_dispatch:
+permissions:
+  # Required to view the maintainer-only media staging draft; trusted manual refs.
+  contents: write
+jobs:
+  build:
+    runs-on: [self-hosted, Windows]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Obtain verified draft media component
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          New-Item -ItemType Directory -Force -Path build/media | Out-Null
+          gh release download media-build-staging --pattern media-component.zip --dir build/media
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Expand-Archive -LiteralPath build/media/media-component.zip -DestinationPath build/media -Force
+          uv sync --locked --python 3.12 --extra browser --extra dev --extra build
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          uv run --locked --extra browser --extra dev --extra build python scripts/prepare_media.py build/media/media-component.zip
+          exit $LASTEXITCODE
+      - name: Build and self-test with locked dependencies
+        shell: pwsh
+        run: |
+          ./build_desktop_app.ps1
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Package release assets locally
+        shell: pwsh
+        run: |
+          $branch = (git branch --show-current).Trim().ToLowerInvariant() -replace '[^a-z0-9._-]+', '-'
+          & build/_environment312/Scripts/python.exe scripts/package_release.py --app "build/$branch/DouyinDownloader" --media build/media --output build/release
+          exit $LASTEXITCODE

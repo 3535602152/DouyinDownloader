@@ -1,0 +1,5 @@
+gcc-mingw-w64-x86-64-posix=13.2.0-6ubuntu1+26.1
+mingw-w64-x86-64-dev=11.0.1-3build1
+binutils-mingw-w64-x86-64=2.41.90.20240122-1ubuntu1+11.4
+make=4.3-4.1build2
+pkg-config=1.8.1-2build1

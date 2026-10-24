@@ -1,0 +1,185 @@
+/* Shared tokens, controls, surfaces and table primitives. Loaded before page styles. */
+:root {
+  --motion-micro: 140ms;
+  --motion-panel: 220ms;
+  /* The same font stack as the Douyin web pages (on Windows: Microsoft YaHei). */
+  font-family: "PingFang SC", DFPKingGothicGB-Regular, "Microsoft YaHei", sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-page);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --bg-page: #f6f8fa;
+  --bg-sidebar: #f9f9f9;
+  --bg-chrome: #f9f9f9;
+  --bg-surface: #fff;
+  --bg-surface-secondary: #f9f9f9;
+  --bg-surface-tertiary: #f3f3f3;
+  --bg-elevated: #fff;
+  --bg-input: #fff;
+  --bg-hover: rgba(26,28,31,.05);
+  --bg-active: rgba(26,28,31,.10);
+  --bg-selected: #e8f1fb;
+  --bg-muted: #f3f3f3;
+  --bg: var(--bg-page);
+  --surface: var(--bg-surface);
+  --muted: var(--bg-muted);
+  --hover: var(--bg-hover);
+  --pressed: var(--bg-active);
+  --selected: var(--bg-selected);
+  --border-subtle: rgba(26,28,31,.05);
+  --border-default: rgba(26,28,31,.08);
+  --border-strong: rgba(26,28,31,.12);
+  --border-interactive: rgba(26,28,31,.20);
+  --border-focus: #339cff;
+  --border: var(--border-default);
+  --divider: var(--border-subtle);
+  --text-primary: #1a1c1f;
+  --text-secondary: rgba(26,28,31,.70);
+  --text-tertiary: rgba(26,28,31,.62);
+  --text-placeholder: rgba(26,28,31,.62);
+  --text-disabled: rgba(26,28,31,.42);
+  --text-inverse: #fff;
+  --text: var(--text-primary);
+  --secondary: var(--text-secondary);
+  --subtle: var(--text-tertiary);
+  --disabled-text: var(--text-disabled);
+  --placeholder: var(--text-placeholder);
+  --primary: #3973b7;
+  --primary-hover: #2f639f;
+  --primary-active: #285584;
+  --primary-disabled: #a9c1dd;
+  --accent-blue: #339cff;
+  --switch-active: #3d9b72;
+  --switch-active-hover: #348a65;
+  --success: #3d9b72;
+  --success-text: #267453;
+  --warning: #d99032;
+  --warning-text: #946200;
+  --danger: #d55353;
+  --danger-text: #b54747;
+  --info-text: #2f639f;
+  --focus: rgba(51,156,255,.20);
+  --border-info: #dbe6f2;
+  --border-danger: #edc6c8;
+  --border-danger-hover: #e8b7ba;
+  --text-danger-notice: #98535a;
+  --bg-danger-hover: #fff5f5;
+  --bg-danger-active: #fde9e9;
+  --bg-toast: #1a1c1f;
+  --overlay-image: rgba(26,28,31,.72);
+  --overlay-dialog: rgba(26,28,31,.45);
+  /* Player-related overlay keeps its own dark palette over video content. */
+  --player-panel-bg: rgb(28,30,41);
+  --player-panel-text: #f4f5f8;
+  --player-panel-text-muted: #9aa2b3;
+  --player-panel-icon: #b8bfce;
+  --player-panel-item-text: #e6e8ee;
+  --player-panel-border: rgba(255,255,255,.08);
+  --player-panel-tab-muted: rgba(255,255,255,.62);
+  --player-panel-item-bg: rgba(255,255,255,.04);
+  --player-panel-item-hover: rgba(255,255,255,.10);
+  --player-panel-thumb-bg: rgba(255,255,255,.08);
+  --player-panel-accent: #fe2c55;
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 14px;
+  --font-weight-medium: 600;
+  --success-bg: #edf8f2;
+  --warning-bg: #fff7e9;
+  --error-bg: #fff1f1;
+  --info-bg: #eef4fb;
+  --radius-control: 6px;
+  --radius-panel: 8px;
+  --radius-dialog: 12px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --control-height: 36px;
+  --control-height-compact: 32px;
+  --shadow-panel: 0 2px 10px rgba(0,0,0,.04);
+  --shadow-segmented: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-popover: 0 16px 40px rgba(0,0,0,.14);
+  --shadow-floating: 0 20px 60px rgba(0,0,0,.18);
+  --shadow-dialog: 0 20px 60px rgba(0,0,0,.16);
+  --shadow-card-hover: 0 2px 8px rgba(0,0,0,.06);
+  --shadow-thumb: 0 0 0 1px rgba(26,28,31,.18);
+  --transition-fast: var(--motion-micro) ease-out;
+  --sidebar-w: 232px;
+  --sidebar-w-collapsed: 64px;
+  /* Geometry and stacking are shared contracts, not page-specific offsets. */
+  --status-height: 38px;
+  --layer-chrome: 5;
+  --layer-sticky: 6;
+  --layer-drawer: 10;
+  --layer-popover: 20;
+  --layer-menu: 30;
+  --layer-tooltip: 40;
+  --layer-modal: 100;
+  --layer-preview: 210;
+  --layer-player: 200;
+  --layer-player-transition: 201;
+  --layer-titlebar: 250;
+  --layer-toast: 300;
+  --button-bg: var(--bg-surface);
+  --progress-track-bg: var(--bg-input);
+  --button-danger-bg: var(--button-bg);
+  --button-primary-disabled-text: var(--text-inverse);
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+}
+* { box-sizing: border-box; }
+/* Keep general scroll surfaces quiet; table overflow keeps a visible native hint. */
+*, *::before, *::after {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+*::-webkit-scrollbar,
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-thumb {
+  width: 0;
+  height: 0;
+  display: none;
+  background: transparent;
+}
+html, body, #app { width: 100%; min-width: 0 !important; max-width: 100%; margin: 0; min-height: 100%; }
+body { min-width: 0; background: var(--bg); font-size: var(--font-size-base); }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+
+/* Surface owns its border and clipping. Menus and modals live in the overlay host. */
+.panel { max-width: 100%; min-width: 0; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-panel); box-shadow: var(--shadow-panel); overflow: hidden; }
+.panel-head { max-width: 100%; min-width: 0; min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 var(--space-5); border-bottom: 1px solid var(--divider); }
+.panel-head h2 { margin: 0; font-size: 16px; font-weight: 700; }
+.panel-head p { margin: 3px 0 0; color: var(--subtle); font-size: var(--font-size-xs); }
+.panel-body { max-width: 100%; min-width: 0; padding: var(--space-5); }
+.button { display: inline-flex; align-items: center; justify-content: center; height: var(--control-height); min-height: var(--control-height); border: 1px solid var(--border-default); border-radius: var(--radius-control); padding: 0 16px; color: var(--text); background: var(--button-bg); font-size: var(--font-size-base); font-weight: var(--font-weight-medium); line-height: 1.2; }
+.button:hover:not(:disabled) { background: var(--bg-hover); border-color: var(--border-strong); }
+.button.primary { color: var(--text-inverse); border-color: var(--primary); background: var(--primary); }
+.button.danger { color: var(--danger); border-color: var(--border-danger); background: var(--button-danger-bg); }
+.button:disabled { opacity: 1; cursor: not-allowed; color: var(--disabled-text); border-color: var(--divider); background: var(--muted); }
+.button.compact { height: var(--control-height-compact); min-height: var(--control-height-compact); padding: 0 12px; font-size: var(--font-size-sm); }
+.table-wrap { max-width: 100%; min-width: 0; overflow: auto; scrollbar-width: thin; -ms-overflow-style: auto; }
+.table-wrap::-webkit-scrollbar { width: 8px; height: 8px; display: block; }
+.table-wrap::-webkit-scrollbar-track { background: var(--bg-surface-secondary); }
+.table-wrap::-webkit-scrollbar-thumb { border: 2px solid var(--bg-surface-secondary); border-radius: 999px; background: var(--text-tertiary); }
+:where(.table-wrap, .following-list-wrap, .monitor-fixed-header) table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+:where(.table-wrap, .following-list-wrap, .monitor-fixed-header) th { height: 42px; padding: 0 14px; background: var(--bg-surface-secondary); color: var(--secondary); border-bottom: 1px solid var(--divider); font-size: 12px; font-weight: 650; text-align: left; white-space: nowrap; }
+:where(.table-wrap, .following-list-wrap, .monitor-fixed-header) td { height: 50px; padding: 0 14px; border-bottom: 1px solid var(--divider); color: var(--secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+:where(.table-wrap, .following-list-wrap, .monitor-fixed-header) tr:last-child td { border-bottom: 0; }
+:where(.table-wrap, .following-list-wrap, .monitor-fixed-header) tr:hover td { background: var(--bg-hover); }
+:where(.table-wrap, .following-list-wrap, .monitor-fixed-header) tr.selected td { background: var(--bg-selected); }
+:where(.table-wrap, .following-list-wrap, .monitor-fixed-header) td.title { color: var(--text); font-weight: 600; }
+:where(.table-wrap, .following-list-wrap, .monitor-fixed-header) td.work { color: var(--text); }
+.button.primary:hover:not(:disabled) { border-color: var(--primary-hover); background: var(--primary-hover); }
+.button.primary:active:not(:disabled) { border-color: var(--primary-active); background: var(--primary-active); }
+.button.primary:disabled { color: var(--button-primary-disabled-text); border-color: var(--primary-disabled); background: var(--primary-disabled); }
+.button.danger:hover:not(:disabled) { border-color: var(--border-danger-hover); background: var(--bg-danger-hover); }
+.button.danger:active:not(:disabled) { background: var(--bg-danger-active); }
+.button:active:not(:disabled) { background: var(--bg-active); }
+/* Keep foreground, scroll and overlay responsibilities separate. */
+.ui-overlay-host { display: contents; }
+body.ui-modal-open { overflow: hidden; }
+.ui-overlay-host [inert] { pointer-events: none; }

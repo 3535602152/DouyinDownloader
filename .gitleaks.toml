@@ -1,0 +1,53 @@
+title = "DouyinDownloader secret scanning"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "douyin-session-cookie"
+description = "A literal Douyin login credential"
+regex = '''(?i)(?:sessionid(?:_ss)?|sid_guard|sid_tt|uid_tt|passport_csrf_token)["']?\s*[:=]\s*["']?([a-z0-9_%/+\-=.]{24,})'''
+secretGroup = 1
+keywords = ["sessionid", "sid_guard", "sid_tt", "uid_tt", "passport_csrf_token"]
+
+[[rules]]
+id = "signed-media-url"
+description = "Captured signed media URL"
+regex = '''(?i)https?[^\s"<>]{20,}(?:x-signature|x-amz-signature)=[^\s"<>]{12,}'''
+keywords = ["x-signature", "X-Amz-Signature"]
+
+[[allowlists]]
+description = "Generated dependency integrity records, never application credentials"
+paths = ['''^uv\.lock$''', '''^package-lock\.json$''']
+
+[[allowlists]]
+description = "Public F2 msToken SDK bootstrap placeholder, not an account session"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)douyin/signing/ms_token_conf\.py$''']
+regexTarget = "match"
+regexes = ['''T4bNG9W2rKF7hBNwaYssDE''']
+
+[[allowlists]]
+description = "gmssl 3.2.2 public SM2 example key in upstream package metadata"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)DEPENDENCY_LICENSES/gmssl/METADATA$''']
+regexTarget = "match"
+regexes = ['''00B9AB0B828FF68872F21A837FC303668428DEA11DCD1B24429D0C99E24EED83D5''']
+
+[[allowlists]]
+description = "RFC 6455 public WebSocket sample nonce used by Playwright 1.64.1"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)_internal/playwright/driver/package/lib/coreBundle\.js$''']
+regexTarget = "match"
+regexes = ['''dGhlIHNhbXBsZSBub25jZQ==''']
+
+[[allowlists]]
+description = "Playwright 1.64.1 xterm minified export assignment, not a credential"
+condition = "AND"
+targetRules = ["generic-api-key"]
+paths = ['''(^|/)_internal/playwright/driver/package/lib/vite/traceViewer/assets/xtermModule-B794rD2Z\.js$''']
+regexTarget = "match"
+regexes = ['''t\.FourKeyMap=t\.TwoKeyMap=void''']

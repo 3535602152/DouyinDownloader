@@ -1,0 +1,70 @@
+name: Verify packaged Windows release
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing draft release tag
+        default: v0.4.0
+        required: true
+permissions:
+  # GitHub hides draft releases from read-only tokens. This workflow is trusted
+  # manual/release-preparation code and needs push-level draft visibility.
+  contents: write
+jobs:
+  native:
+    name: Packaged Windows UI
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag || 'v0.4.0' }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install the documented WebView2 prerequisite
+        shell: pwsh
+        run: |
+          $installer = Join-Path $env:RUNNER_TEMP 'MicrosoftEdgeWebview2Setup.exe'
+          Invoke-WebRequest 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $installer
+          $signature = Get-AuthenticodeSignature -LiteralPath $installer
+          if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'O=Microsoft Corporation') { throw 'Invalid WebView2 installer signature' }
+          $process = Start-Process -FilePath $installer -ArgumentList '/silent','/install' -WindowStyle Hidden -PassThru -Wait
+          if ($process.ExitCode -notin @(0, 3010)) { throw "WebView2 installation failed: $($process.ExitCode)" }
+      - name: Download and check draft payload
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+$') { throw 'Invalid version tag' }
+          $name = "DouyinDownloader-$($env:RELEASE_TAG.Substring(1))-windows-x64.zip"
+          New-Item -ItemType Directory -Force -Path build/payload | Out-Null
+          gh release download $env:RELEASE_TAG --pattern $name --pattern SHA256SUMS.txt --dir build/payload
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $expected = ((Get-Content build/payload/SHA256SUMS.txt | Where-Object { $_.EndsWith("  $name") }) -split '  ')[0]
+          if ((Get-FileHash "build/payload/$name" -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expected) { throw 'Payload checksum mismatch' }
+          Expand-Archive -LiteralPath "build/payload/$name" -DestinationPath build/payload/app
+          $info = Get-Content build/payload/app/BUILD_INFO.json -Raw | ConvertFrom-Json
+          $ref = gh api "repos/$env:GITHUB_REPOSITORY/git/ref/tags/$env:RELEASE_TAG" | ConvertFrom-Json
+          if ($ref.object.type -eq 'tag') { $ref = gh api "repos/$env:GITHUB_REPOSITORY/git/tags/$($ref.object.sha)" | ConvertFrom-Json }
+          if ($info.commit -ne $ref.object.sha) { throw 'Build does not match the release tag' }
+      - name: Packaged imports, SQLite, MP3 and browser
+        shell: pwsh
+        run: |
+          $env:DOUYIN_DOWNLOADER_DATA_DIR = Join-Path $env:RUNNER_TEMP 'douyin-exe-selftest'
+          $process = Start-Process -FilePath "$PWD/build/payload/app/DouyinDownloader.exe" -ArgumentList '--self-test' -WindowStyle Hidden -PassThru
+          if (-not $process.WaitForExit(120000)) { $process.Kill(); throw 'Self-test timed out' }
+          if ($process.ExitCode) { Get-Content build/payload/app/desktop_self_test.log; throw 'Self-test failed' }
+          $log = Get-Content build/payload/app/desktop_self_test.log -Raw
+          foreach ($expected in @('sqlite=OK','ffmpeg=OK','playwright=OK')) { if (-not $log.Contains($expected)) { throw "Missing $expected" } }
+      - name: Real WebView2 startup, settings and restart persistence
+        shell: pwsh
+        run: |
+          $env:DOUYIN_DOWNLOADER_DATA_DIR = Join-Path $env:RUNNER_TEMP 'douyin-exe-native'
+          foreach ($arguments in @('--self-test-ui', '--self-test-ui --expect-persistence')) {
+            $process = Start-Process -FilePath "$PWD/build/payload/app/DouyinDownloader.exe" -ArgumentList $arguments -WindowStyle Hidden -PassThru
+            if (-not $process.WaitForExit(120000)) { $process.Kill(); throw 'Native UI self-test timed out' }
+            Get-Content build/payload/app/desktop_ui_self_test.log
+            if ($process.ExitCode) { throw 'Native UI self-test failed' }
+            $result = Get-Content build/payload/app/desktop_ui_self_test.log -Raw | ConvertFrom-Json
+            if (-not ($result.ok -and $result.database -and $result.settings -and $result.controls -eq 6)) { throw 'Incomplete native checks' }
+          }

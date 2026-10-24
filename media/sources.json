@@ -1,0 +1,15 @@
+{
+  "ffmpeg": {
+    "version": "9.0.2",
+    "commit": "946fcce07b6dcd0331c8cc609192aeff5e1924f8",
+    "url": "https://codeload.github.com/FFmpeg/FFmpeg/tar.gz/946fcce07b6dcd0331c8cc609192aeff5e1924f8",
+    "filename": "ffmpeg-9.0.2.tar.gz",
+    "sha256": "0aa2b1de2a5698b20a23e93d539a9a8e82ca0117496c5bdf05d198805f42bb3b"
+  },
+  "lame": {
+    "version": "3.100",
+    "url": "https://deb.debian.org/debian/pool/main/l/lame/lame_3.100.orig.tar.gz",
+    "filename": "lame-3.100.tar.gz",
+    "sha256": "ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e"
+  }
+}

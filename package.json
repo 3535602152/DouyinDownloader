@@ -1,0 +1,12 @@
+{
+  "name": "douyindownloader-frontend-tests",
+  "version": "0.4.0",
+  "private": true,
+  "engines": { "node": ">=22 <25" },
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "test:browser": "node --test --test-concurrency=1 tests/github_ui_browser.cjs tests/sidebar_browser.cjs tests/creator_grid_browser.cjs tests/ui_foundation_browser.cjs",
+    "test:all": "npm test && npm run test:browser"
+  },
+  "devDependencies": { "playwright": "1.64.1" }
+}

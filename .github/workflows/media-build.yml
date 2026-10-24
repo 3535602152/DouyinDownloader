@@ -1,0 +1,33 @@
+name: Build LGPL media component
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  media:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install cross compiler
+        run: sudo apt-get update -qq && sudo apt-get install -y $(cat media/toolchain-packages.txt)
+      - name: Build fixed sources
+        run: bash scripts/build_media.sh
+      - name: Stage media in a draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view media-build-staging >/dev/null 2>&1; then
+            gh release create media-build-staging --draft --target "$GITHUB_SHA" --title 'Temporary media build' --notes 'Maintainer-only draft staging for verified LGPL media components.'
+          fi
+          python3 - <<'PY'
+          import pathlib, zipfile
+          root = pathlib.Path('build/media')
+          with zipfile.ZipFile('media-component.zip', 'w', zipfile.ZIP_DEFLATED) as z:
+              for p in root.rglob('*'):
+                  if p.is_file() and ('sources' in p.relative_to(root).parts or 'bin' in p.relative_to(root).parts or p.name == 'MEDIA_BUILD.json'):
+                      z.write(p, p.relative_to(root))
+          PY
+          gh release upload media-build-staging media-component.zip --clobber

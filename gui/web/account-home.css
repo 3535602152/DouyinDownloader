@@ -1,0 +1,14 @@
+/* Account content reuses the creator homepage, cards and player. */
+.user-content-module .user-content-tabs { margin-top: 22px; gap: 4px; }
+.user-content-tabs .user-mode-card { font: inherit; cursor: pointer; background: transparent; justify-content: center; border-radius: 8px; }
+.user-content-tabs .user-mode-card.selected { color: #fe2c55; border-color: #fe2c55; }
+.user-content-tabs .user-mode-card:disabled { cursor: not-allowed; opacity: .45; }
+.user-content-summary { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px 4px; }
+.user-content-summary h2 { font-size: 24px; margin: 6px 0; }
+.user-content-summary p { margin: 8px 0 0; opacity: .7; max-width: 680px; line-height: 1.7; }
+.user-download-conditions { border-top: 1px solid rgba(128,128,128,.2); padding: 14px 0; }
+.user-download-conditions summary { cursor: pointer; font-weight: 600; }
+.user-download-conditions summary .label { font-size: 12px; font-weight: 400; margin-left: 12px; opacity: .7; }
+.user-download-conditions .user-download-settings { margin-top: 16px; }
+.account-catalogue-home [data-catalogue-tail][hidden] { display: none !important; }
+@media (max-width: 820px) { .user-content-summary { align-items: flex-start; flex-direction: column; gap: 14px; } .user-download-conditions summary .label { display: block; margin: 5px 0 0; } }

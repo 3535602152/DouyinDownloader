@@ -1,0 +1,41 @@
+# Reference defaults; user logins are stored separately.
+video_quality: highest
+live_photo_merge: true
+monitor_work_concurrency: 1
+retry_times: 3
+path: Downloaded
+folderstyle: true
+author_dir: nickname
+filename_template: '{date}_{title}_{id}'
+folder_template: '{date}_{title}_{id}'
+scan_strategy: stable
+full_scan_interval: 24
+browser_fallback:
+  enabled: true
+  headless: true
+proxy: ''
+rate_limit: 2
+homepage_screenshot: true
+monitor_connections: 24
+monitor_segments: 8
+database_path: DouyinDownloader.db
+comments:
+  enabled: false
+  page_size: 20
+mode:
+- post
+number:
+  post: 0
+  like: 0
+  mix: 0
+  music: 0
+  collect: 0
+  collectmix: 0
+increase:
+  post: true
+  like: true
+  mix: true
+  music: true
+  collect: false
+  collectmix: false
+link: []

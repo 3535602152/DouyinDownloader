@@ -1,0 +1,74 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  python:
+    name: Python (${{ matrix.os }}, ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.12', '3.13', '3.14']
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.11.28'
+          enable-cache: false
+      - run: uv sync --locked --python ${{ matrix.python }} --extra browser --extra dev
+      - run: uv run --locked --extra browser --extra dev python -m ruff check .
+      - run: uv run --locked --extra browser --extra dev python scripts/check_release.py
+      - run: uv run --locked --extra browser --extra dev python -m pytest -q --timeout=90 --junitxml=build/test-results.xml
+      - name: Preserve test report
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: python-${{ matrix.os }}-${{ matrix.python }}
+          path: build/test-results.xml
+          retention-days: 7
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npm audit --audit-level=high
+      - run: npm test
+      - run: npm run test:browser
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.11.28'
+          enable-cache: false
+      - run: uv sync --locked --python 3.12 --extra browser --extra dev
+      - run: uv run --locked --extra browser --extra dev python scripts/scan_secrets.py
+      - run: uv run --locked --extra browser --extra dev python -m pip_audit -r requirements.txt --disable-pip --no-deps

@@ -1,0 +1,96 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Test/cache artifacts
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Build/package artifacts
+build/
+dist/
+.eggs/
+*.egg-info/
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.ci-python/
+python-embed.zip
+get-pip.py
+
+# OS files
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Runtime output
+Downloaded/
+Transcripts/
+cache/
+DouyinDownloader.db
+# Legacy database files may be present during one-way migration.
+dy_downloader.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Local config/secrets
+config*.yml
+!config.example.yml
+.cookies.json
+.accounts.json
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+browser_profile/
+webview/
+.tools/
+node_modules/
+test-results/
+playwright-report/
+*.har
+*.bundle
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+config/cookies.json
+desktop_settings.json
+desktop_self_test.*
+desktop_ui_self_test.*
+.inspect_edge_Cookies.tmp
+.omx/
+
+# Editor / IDE local settings
+.claude/
+.idea/
+.vscode/
+.omc/
+.gstack/
+
+# Local workbenches, source handoff notes, and machine-specific shortcuts
+.workbuddy/
+.workbuddy-ai/
+DOWNLOAD_CONTEXT_HANDOFF.md
+test-temporary.*
+UI_REDESIGN.md
+img/fuye.jpg
+
+# SQLite runtime sidecars
+*.db-shm
+*.db-wal
+
+# Local Douyin UI reference captures
+reference/douyin-official/

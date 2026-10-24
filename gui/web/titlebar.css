@@ -1,0 +1,39 @@
+/* Custom window caption (gui/window_frame.py removes the native one).
+   Only shown while html[data-frame="custom"]; everything that pins itself to
+   the top of the viewport starts below it via --titlebar-h. */
+:root { --titlebar-h: 0px; }
+html[data-frame="custom"] { --titlebar-h: 40px; scroll-padding-top: var(--titlebar-h); }
+
+.titlebar { display: none; }
+html[data-frame="custom"] .titlebar {
+  position: fixed; inset: 0 0 auto 0; z-index: var(--layer-titlebar); height: var(--titlebar-h);
+  display: flex; align-items: stretch; background: var(--bg-sidebar); border-bottom: 1px solid var(--border-default);
+  color: var(--text); user-select: none; app-region: drag; -webkit-app-region: drag;
+}
+.titlebar-title { display: flex; align-items: center; gap: 8px; min-width: 0; padding-left: 14px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.titlebar-mark { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; color: var(--text-inverse); background: var(--primary); font-size: 11px; font-weight: 800; }
+/* Room for future title bar content (search, account switcher, ...). */
+.titlebar-fill { flex: 1; min-width: 0; }
+.titlebar-controls { display: flex; app-region: no-drag; -webkit-app-region: no-drag; }
+.titlebar-controls button {
+  width: 46px; border: 0; border-radius: 0; background: transparent; color: var(--text);
+  font: 10px "Segoe Fluent Icons", "Segoe MDL2 Assets", sans-serif; transition: background-color .1s;
+  cursor: default; /* native caption buttons keep the arrow, unlike the global button rule */
+}
+.titlebar-controls button:hover { background: var(--hover); }
+.titlebar-controls button:active { background: var(--selected); }
+.titlebar-controls button.titlebar-close:hover { background: #c42b1c; color: #fff; }
+.titlebar-controls button.titlebar-close:active { background: #b22a1b; color: #fff; }
+.titlebar-controls button:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+/* Invisible top resize border, laid over the buttons like the native one. */
+.titlebar-edge { position: absolute; top: 0; left: 0; right: 0; z-index: 1; height: 5px; cursor: ns-resize; app-region: no-drag; -webkit-app-region: no-drag; }
+.titlebar-edge[data-edge="topleft"] { right: auto; width: 10px; cursor: nwse-resize; }
+.titlebar-edge[data-edge="topright"] { left: auto; width: 10px; cursor: nesw-resize; }
+html[data-window-maximized] .titlebar-edge { display: none; }
+
+/* Offset everything else anchored to the viewport top. */
+html[data-frame="custom"] .main { min-height: calc(100vh - var(--titlebar-h)); }
+html[data-frame="custom"] .shell { padding-top: var(--titlebar-h); }
+html[data-frame="custom"] :is(.sidebar, .monitor-delete-overlay, .image-overlay, .following-overlay, .cv-player, .cv-slide-layer) { top: var(--titlebar-h); }
+html[data-frame="custom"] .image-overlay-close { top: calc(var(--titlebar-h) + 18px); }
+html[data-frame="custom"] .cv-toolbar-top { top: var(--titlebar-h); }

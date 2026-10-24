@@ -1,0 +1,19 @@
+DouyinDownloader
+
+Based on jiji262/douyin-downloader, Copyright (c) 2026 jiji262, MIT License.
+The application logo is the upstream MIT-licensed logo; app_icon.ico is its
+Windows icon derivative. This project is not affiliated with Douyin/ByteDance.
+
+The signing components retain their original notices and are adapted from:
+- Johnserf-Seed/f2: abogus.py and the msToken configuration, Apache-2.0.
+- Evil0ctal/Douyin_TikTok_Download_API: xbogus.py and websign.py, Apache-2.0.
+See licenses/Apache-2.0.txt, licenses/F2-LICENSE.txt and
+licenses/Evil0ctal-NOTICE.txt. Local changes include module relocation,
+import/type adjustments and integration with this project's request serializer.
+
+Lucide/Feather decorative icons retain their ISC/MIT notices in the HTML and
+licenses/Lucide-ISC-Feather-MIT.txt.
+
+The Windows media component is a separate FFmpeg executable with LAME,
+distributed under its own LGPL terms. Its corresponding sources, build recipe,
+configuration and licenses accompany the release. It is invoked as a process.

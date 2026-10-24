@@ -1,0 +1,247 @@
+/* Local application dark theme. Values are scoped to app-owned UI roots. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-page: #181818;
+  background: var(--bg-page);
+}
+html[data-theme="dark"] body,
+html[data-theme="dark"] #app { background: var(--bg-page); }
+
+html[data-theme="dark"] :is(
+  .titlebar,
+  .sidebar,
+  .topbar,
+  .content,
+  .ui-overlay-host,
+  .work-detail-host,
+  .status,
+  #log-drawer,
+  #footer-panel,
+  #toast,
+  .following-dialog,
+  .following-overlay,
+  .image-overlay,
+  .monitor-delete-overlay,
+  .monitor-fixed-header
+) {
+  color-scheme: dark;
+  --bg: #181818;
+  --button-bg: var(--bg-surface-secondary);
+  --progress-track-bg: var(--bg-surface-secondary);
+  --button-danger-bg: rgba(255, 103, 100, .08);
+  --button-primary-disabled-text: rgba(255, 255, 255, .72);
+  --bg-page: #181818;
+  --bg-sidebar: #141414;
+  --bg-chrome: rgba(24, 24, 24, .96);
+  --surface: #212121;
+  --bg-surface: #212121;
+  --surface-2: #282828;
+  --bg-surface-secondary: #282828;
+  --bg-surface-tertiary: #282828;
+  --elevated: #303030;
+  --bg-elevated: #303030;
+  --input-bg: #181818;
+  --bg-input: #181818;
+  --muted: #282828;
+  --bg-muted: #282828;
+  --hover: rgba(255, 255, 255, .06);
+  --bg-hover: rgba(255, 255, 255, .06);
+  --pressed: rgba(255, 255, 255, .10);
+  --bg-active: rgba(255, 255, 255, .10);
+  --selected: rgba(255, 255, 255, .12);
+  --bg-selected: rgba(255, 255, 255, .12);
+  --border: rgba(255, 255, 255, .08);
+  --border-subtle: rgba(255, 255, 255, .04);
+  --border-strong: rgba(255, 255, 255, .16);
+  --border-default: rgba(255, 255, 255, .08);
+  --border-interactive: rgba(255, 255, 255, .16);
+  --border-focus: #339cff;
+  --divider: rgba(255, 255, 255, .06);
+  --text: #f0f0f0;
+  --text-primary: #f0f0f0;
+  --secondary: rgba(240, 240, 240, .70);
+  --text-secondary: rgba(240, 240, 240, .70);
+  --subtle: rgba(240, 240, 240, .50);
+  --text-tertiary: rgba(240, 240, 240, .50);
+  --disabled-text: #5d5d5d;
+  --text-disabled: #5d5d5d;
+  --placeholder: rgba(240, 240, 240, .58);
+  --text-placeholder: rgba(240, 240, 240, .58);
+  --text-inverse: #fff;
+  --primary: #339cff;
+  --primary-hover: #4ca8ff;
+  --primary-active: #2384d1;
+  --primary-disabled: #4f91c8;
+  --accent-blue: #339cff;
+  --switch-active: var(--primary);
+  --switch-active-hover: var(--primary-hover);
+  --success: #40c977;
+  --success-text: #40c977;
+  --warning: #ff8549;
+  --warning-text: #ff8549;
+  --danger: #ff6764;
+  --danger-text: #ff6764;
+  --info-text: #99ceff;
+  --focus: color-mix(in oklab, #339cff 70%, transparent);
+  --border-info: rgba(51, 156, 255, .25);
+  --border-danger: rgba(255, 103, 100, .32);
+  --border-danger-hover: rgba(255, 103, 100, .48);
+  --text-danger-notice: var(--danger);
+  --bg-danger-hover: rgba(255, 103, 100, .14);
+  --bg-danger-active: rgba(255, 103, 100, .20);
+  --bg-toast: #303030;
+  --overlay-image: rgba(0, 0, 0, .72);
+  --overlay-dialog: rgba(0, 0, 0, .45);
+  --success-bg: rgba(64, 201, 119, .14);
+  --warning-bg: rgba(255, 133, 73, .14);
+  --error-bg: rgba(255, 103, 100, .14);
+  --info-bg: rgba(51, 156, 255, .14);
+  --shadow-panel: 0 4px 18px rgba(0, 0, 0, .32), 0 0 0 1px rgba(255, 255, 255, .03);
+  color: var(--text);
+}
+
+html[data-theme="dark"] .sidebar { background: #141414; }
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .status { background: rgba(24, 24, 24, .96); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .panel { background: var(--surface); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .panel-head { background: var(--surface); }
+
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .column-picker-trigger { background: var(--surface-2); }
+html[data-theme="dark"] .column-picker,
+html[data-theme="dark"] .column-picker-row.dragging,
+html[data-theme="dark"] .following-dialog {
+  background: var(--elevated);
+}
+html[data-theme="dark"] .log-drawer { background: var(--bg-page); }
+html[data-theme="dark"] .column-picker,
+html[data-theme="dark"] .log-drawer,
+html[data-theme="dark"] .following-dialog {
+  border-color: var(--border);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .42), 0 0 0 1px var(--border-subtle);
+}
+html[data-theme="dark"] .column-picker-row.dragging { box-shadow: 0 4px 12px rgba(0, 0, 0, .35); }
+
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) :is(input, select, textarea) {
+  color: var(--text);
+  background: var(--input-bg);
+  border-color: var(--border);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) :is(input, select, textarea):hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) :is(input, select, textarea):focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--focus);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) :is(input, select, textarea):disabled {
+  color: var(--disabled-text);
+  background: var(--muted);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) :is(input, textarea)::placeholder { color: var(--placeholder); }
+
+
+
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .notice {
+  color: var(--secondary);
+  border-color: rgba(51, 156, 255, .25);
+  background: var(--info-bg);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .notice.error {
+  color: var(--danger);
+  border-color: rgba(255, 103, 100, .30);
+  background: var(--error-bg);
+}
+
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) th { color: var(--secondary); background: var(--surface-2); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) td { color: var(--secondary); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) td.title,
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) td.work { color: var(--text); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .table-wrap tr:not(.selected):hover td,
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .table-wrap tr.is-hovered:not(.selected) td,
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .following-list tr:not(.following-existing):hover td { background: var(--hover); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .table-wrap tr.selected td,
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .following-list tr[aria-selected="true"] td { background: var(--selected); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .table-wrap tr.selected td:first-child { box-shadow: inset 2px 0 var(--primary); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .following-list tr.following-existing td { color: var(--disabled-text); opacity: 1; }
+
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host, .monitor-fixed-header) .check {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--input-bg);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host, .monitor-fixed-header) .check.is-checked { border-color: var(--primary); background: var(--primary); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .segmented { background: var(--surface-2); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .segmented .segment.checked {
+  color: var(--primary);
+  background: var(--elevated);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .35);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .switch {
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .switch i {
+  background: #dfdfdf;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .32);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .switch.on {
+  background: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .switch:not(.on):hover:not(:disabled) {
+  background: #343434;
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .switch.on:hover:not(:disabled) {
+  background: var(--primary-hover);
+  box-shadow: inset 0 0 0 1px var(--primary-hover);
+}
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .cookie-details summary,
+
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .status-badge.ok { color: var(--success); background: var(--success-bg); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .status-badge.info { color: #99ceff; background: var(--info-bg); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .status-badge.warn { color: var(--warning); background: var(--warning-bg); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .status-badge.error { color: var(--danger); background: var(--error-bg); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .image-cell { background: var(--surface); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .image-cell:hover { border-color: var(--border-strong); box-shadow: 0 2px 8px rgba(0, 0, 0, .28); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .image-cell.is-selected { border-color: var(--primary); background: var(--selected); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .image-cell img { background: var(--muted); }
+html[data-theme="dark"] .image-overlay img { background: var(--surface); }
+html[data-theme="dark"] .following-dialog .loading-spinner { border-color: var(--border-strong); border-top-color: var(--primary); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) :is(.column-picker-trigger, .icon-button):hover:not(:disabled) { color: var(--primary); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .column-picker-trigger[aria-expanded="true"] { border-color: var(--border-strong); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .column-picker-trigger:hover,
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .column-picker-trigger[aria-expanded="true"] {
+  color: var(--primary);
+  border-color: var(--border-strong);
+  background: var(--hover);
+}
+
+html[data-theme="dark"] #toast {
+  border: 1px solid var(--border);
+  background: var(--elevated);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .38);
+}
+html[data-theme="dark"] #log-drawer { background: var(--elevated); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) a { color: var(--primary); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .creator-link:hover { color: var(--primary); }
+
+/* Footer panels: on a near-black page a wide, faint black shadow spreads over
+   only a few grey levels and shows as bands, and translucent borders double
+   up where the arrow meets the frame.  Solid edges and a short, denser
+   shadow keep the outline clean. */
+html[data-theme="dark"] #footer-panel {
+  border-color: #3c3c3c;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, .55);
+}
+html[data-theme="dark"] #footer-panel::after {
+  border-color: #3c3c3c;
+}
+
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b9098' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 14px; }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .segmented.has-thumb .segment.checked { background: transparent; box-shadow: none; }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .segment-thumb { background: var(--elevated); box-shadow: 0 1px 3px rgba(0, 0, 0, .35); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .path-field { border-color: var(--border); background: var(--input-bg); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .path-field:focus-within { border-color: var(--primary); }
+html[data-theme="dark"] :is(.content:not(.creator-content), .ui-overlay-host) .path-field > input { background: transparent; }
+html[data-theme="dark"] .nav-tip { background: #3a3a3a; color: #f2f2f2; box-shadow: 0 4px 12px rgba(0, 0, 0, .4); }

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>抖音下载器</title>
+  <script>
+    (() => {
+      const key = 'douyin-downloader-theme'
+      let theme = 'light'
+      try { const value = localStorage.getItem(key); theme = value === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : value === 'dark' ? 'dark' : 'light' } catch {}
+      document.documentElement.dataset.theme = theme
+      document.documentElement.toggleAttribute('dark', theme === 'dark')
+      try { if (localStorage.getItem('douyin-downloader-sidebar') === 'collapsed') document.documentElement.dataset.sidebar = 'collapsed' } catch {}
+      // The desktop window drops its native caption on Windows; app.js
+      // removes this again if the backend reports it kept the native one.
+      // pywebview's own API arrives later; WebView2's message port exists now.
+      if (window.chrome && window.chrome.webview) document.documentElement.dataset.frame = 'custom'
+    })()
+  </script>
+  <link rel="stylesheet" href="ui-foundation.css?v=20261013-comment-preview">
+  <link rel="stylesheet" href="style.css?v=20261013-comment-preview">
+  <link rel="stylesheet" href="creator/creator-view.css?v=20261013-comment-preview">
+  <link rel="stylesheet" href="theme-dark.css?v=20261004-foundation">
+  <link rel="stylesheet" href="account-home.css?v=20261003-creator">
+  <link rel="stylesheet" href="titlebar.css?v=20261004-titlebar">
+  <link rel="stylesheet" href="settings-page.css?v=20261011-settings">
+</head>
+<body>
+  <header class="titlebar">
+    <div class="titlebar-title"><span class="titlebar-mark">抖</span><span>抖音下载器</span></div>
+    <div class="titlebar-fill"></div>
+    <div class="titlebar-controls">
+      <button type="button" data-window="minimize" title="最小化" aria-label="最小化">&#xE921;</button>
+      <button type="button" data-window="maximize" title="最大化" aria-label="最大化">&#xE922;</button>
+      <button type="button" class="titlebar-close" data-window="close" title="关闭" aria-label="关闭">&#xE8BB;</button>
+    </div>
+    <div class="titlebar-edge" data-edge="top" aria-hidden="true"></div>
+    <div class="titlebar-edge" data-edge="topleft" aria-hidden="true"></div>
+    <div class="titlebar-edge" data-edge="topright" aria-hidden="true"></div>
+  </header>
+  <div id="app" class="shell">
+    <aside class="sidebar" aria-label="侧边栏">
+      <button class="brand" data-action="page" data-page="link" aria-label="抖音下载器">
+        <span class="brand-mark">抖</span><span>抖音下载器</span>
+      </button>
+      <nav class="nav" aria-label="主导航">
+        <button data-action="page" data-page="link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg><span class="nav-label">链接下载</span>
+        </button>
+        <button data-action="page" data-page="user">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg><span class="nav-label">用户作品</span>
+        </button>
+        <button data-action="page" data-page="following">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></svg><span class="nav-label">关注主播</span>
+        </button>
+        <button data-action="page" data-page="comments">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /><path d="M7 11h10" /><path d="M7 15h6" /><path d="M7 7h8" /></svg><span class="nav-label">评论与图片</span>
+        </button>
+        <button data-action="page" data-page="history">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M12 7v5l4 2" /></svg><span class="nav-label">下载记录</span>
+        </button>
+        <button data-action="page" data-page="settings">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></svg><span class="nav-label">设置</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <!--
+Lucide Sun and Moon icons: https://lucide.dev/icons/sun and https://lucide.dev/icons/moon
+ISC License
+
+Copyright (c) 2026 Lucide Icons and Contributors
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+The following Lucide icons are derived from the Feather project:
+
+airplay, alert-circle, alert-octagon, alert-triangle, aperture, arrow-down-circle, arrow-down-left, arrow-down-right, arrow-down, arrow-left-circle, arrow-left, arrow-right-circle, arrow-right, arrow-up-circle, arrow-up-left, arrow-up-right, arrow-up, at-sign, calendar, cast, check, chevron-down, chevron-left, chevron-right, chevron-up, chevrons-down, chevrons-left, chevrons-right, chevrons-up, circle, clipboard, clock, code, columns, command, compass, corner-down-left, corner-down-right, corner-left-down, corner-left-up, corner-right-down, corner-right-up, corner-up-left, corner-up-right, crosshair, database, divide-circle, divide-square, dollar-sign, download, external-link, feather, frown, hash, headphones, help-circle, info, italic, key, layout, life-buoy, link-2, link, loader, lock, log-in, log-out, maximize, meh, minimize, minimize-2, minus-circle, minus-square, minus, monitor, moon, more-horizontal, more-vertical, move, music, navigation-2, navigation, octagon, pause-circle, percent, plus-circle, plus-square, plus, power, radio, rss, search, server, share, shopping-bag, sidebar, smartphone, smile, square, table-2, tablet, target, terminal, trash-2, trash, triangle, tv, type, upload, x-circle, x-octagon, x-square, x, zoom-in, zoom-out
+
+The MIT License (MIT) (for the icons listed above)
+
+Copyright (c) 2013-present Cole Bemis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-->
+        <div class="sidebar-theme" role="group" aria-label="颜色主题">
+          <button type="button" data-action="theme-set" data-theme-value="light" aria-label="浅色主题" aria-pressed="true"><svg class="theme-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /> </svg><span>浅色</span></button>
+          <button type="button" data-action="theme-set" data-theme-value="dark" aria-label="深色主题" aria-pressed="false"><svg class="theme-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /> </svg><span>深色</span></button>
+        </div>
+        <button type="button" class="sidebar-theme-toggle" data-action="theme-toggle" aria-label="切换到深色主题">
+          <svg class="theme-icon theme-icon-sun" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /> </svg>
+          <svg class="theme-icon theme-icon-moon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /> </svg>
+        </button>
+        <button type="button" class="sidebar-toggle" data-action="sidebar-toggle" aria-label="收起侧边栏" aria-expanded="true">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M9 3v18" /><path class="sidebar-toggle-chevron" d="m16 15-3-3 3-3" /></svg><span class="nav-label">收起</span>
+        </button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <h1 id="page-title">链接下载</h1>
+        <div class="top-actions"><span id="busy-indicator" class="busy-indicator" role="status" aria-live="polite" aria-atomic="true" hidden>处理中</span><button class="button secondary" data-action="log-toggle">日志</button><button class="button secondary" data-action="refresh">刷新</button></div>
+      </header>
+      <section id="content" class="content"><div class="panel startup-panel" role="status"><span class="loading-spinner" aria-hidden="true"></span><strong>正在加载界面…</strong></div></section>
+      <footer id="status" class="status" role="status" aria-live="polite" aria-atomic="true"><div class="status-lane" id="status-scan-lane"><span id="status-scan-dot" class="status-dot"></span><span id="status-text">空闲</span><span id="status-dots" class="status-dots" aria-hidden="true"></span><span id="status-detail"></span></div><div class="status-lane" id="status-download-lane"><span id="status-download-dot" class="status-dot"></span><span id="status-download">—</span></div></footer>
+    </main>
+  </div>
+  <div id="ui-overlay-host" class="ui-overlay-host"></div>
+  <div id="toast" class="toast" role="status"></div>
+  <div id="nav-tip" class="nav-tip" role="tooltip" hidden></div>
+  <div id="footer-panel" class="footer-panel" hidden><div class="fp-body">
+  <div id="download-panel" class="fp-view" role="dialog" aria-label="下载队列" hidden>
+    <div class="dl-head"><div class="sp-tabs dl-tabs" role="tablist" aria-label="下载">
+      <button type="button" class="sp-tab" role="tab" aria-selected="true" data-tab="download">下载<span class="sp-tab-count"></span></button>
+      <button type="button" class="sp-tab" role="tab" aria-selected="false" data-tab="users">用户<span class="sp-tab-count"></span></button>
+      <button type="button" class="sp-tab" role="tab" aria-selected="false" data-tab="comments">评论<span class="sp-tab-count"></span></button>
+    </div><strong>下载队列</strong><span class="dl-head-meta"><span class="dl-head-note" hidden></span><span class="dl-head-rate">0 B/s</span><span class="dl-head-count"></span><button type="button" class="dl-head-action" data-dl-rebuild title="清空所有待下载作品，重新全量扫描；扫描到的作品直接交给下载，不再逐个请求作品详情">清空重扫</button></span></div>
+    <div class="dl-columns" aria-hidden="true"><span>名称</span><span>大小</span><span>状态</span></div>
+    <div class="dl-list" role="list"></div>
+  </div>
+  <div id="scan-panel" class="fp-view scan-panel" role="dialog" aria-label="扫描队列" hidden>
+    <div class="dl-head"><div class="sp-tabs" role="tablist" aria-label="扫描">
+      <button type="button" class="sp-tab" role="tab" aria-selected="true" data-tab="queue">队列<span class="sp-tab-count"></span></button>
+      <button type="button" class="sp-tab" role="tab" aria-selected="false" data-tab="failed">失败<span class="sp-tab-count"></span></button>
+    </div><span class="dl-head-meta"><span class="sp-head-note"></span></span></div>
+    <div class="dl-columns" aria-hidden="true"><span>名称</span><span>类型</span><span>状态</span></div>
+    <div class="dl-list" role="list"></div>
+  </div>
+  </div></div>
+  <div id="log-drawer" class="log-drawer" role="region" aria-label="日志面板" hidden>
+    <div class="log-head"><strong>日志</strong><button class="icon-button" data-action="close-log" aria-label="关闭日志" title="关闭日志">×</button></div>
+    <div class="log-tabs" role="tablist" aria-label="日志页面">
+      <button id="log-tab-logs" class="log-tab" type="button" role="tab" aria-controls="log-panel-logs" aria-selected="true" tabindex="0" data-action="log-tab" data-tab="logs">运行日志</button>
+      <button id="log-tab-risk" class="log-tab" type="button" role="tab" aria-controls="log-panel-risk" aria-selected="false" tabindex="-1" data-action="log-tab" data-tab="risk">风控统计</button>
+    </div>
+    <section id="log-panel-logs" class="log-panel" role="tabpanel" aria-labelledby="log-tab-logs" tabindex="0"><pre id="log-text"></pre></section>
+    <section id="log-panel-risk" class="log-panel" role="tabpanel" aria-labelledby="log-tab-risk" tabindex="0" hidden><div id="risk-report"></div></section>
+  </div>
+  <div id="work-detail-host" class="work-detail-host" hidden></div>
+  <script src="ui-foundation.js?v=20261013-comment-preview"></script>
+  <script src="preferences.js?v=20261009"></script>
+  <script src="render-batch.js?v=20261009"></script>
+  <script src="task-presentation.js?v=20261009"></script>
+  <script src="settings-schema.js?v=20261009"></script>
+  <script src="settings-page.js?v=20261011-settings"></script>
+  <script src="work-details.js?v=20261009"></script>
+  <script src="app-events.js?v=20261013-comment-preview"></script>
+  <script src="creator/creator-view.js?v=20261003-douyin-icons"></script>
+  <script src="account-catalogue.js?v=20260928-account"></script>
+  <script src="task-progress.js?v=20260930-lanes"></script>
+  <script src="app.js?v=20261013-comment-preview"></script>
+  <script src="footer-panel.js?v=20261004-foundation"></script>
+  <script src="download-panel.js?v=20261011-users"></script>
+  <script src="scan-panel.js?v=20261001-morph"></script>
+</body>
+</html>
