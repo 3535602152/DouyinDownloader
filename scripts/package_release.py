@@ -1,8 +1,7 @@
-"""Assemble release ZIPs, corresponding media sources and dependency licenses."""
+"""Assemble a Windows release ZIP with corresponding sources and licenses."""
 from __future__ import annotations
 
 import argparse
-import hashlib
 import importlib.metadata
 import json
 import shutil
@@ -61,14 +60,8 @@ def assemble(app: Path, media: Path, output: Path) -> None:
     info = {"version": version, "commit": sha, "dirty": False,
             "media_sha256": json.loads((media / "MEDIA_BUILD.json").read_text())["binary"]["sha256"]}
     (app / "BUILD_INFO.json").write_text(json.dumps(info, indent=2) + "\n")
-    zip_tree(app, output / f"DouyinDownloader-{version}-windows-x64.zip")
-    with zipfile.ZipFile(output / "DouyinDownloader-media-windows-x64.zip", "w", zipfile.ZIP_DEFLATED) as archive:
-        archive.write(media / "bin" / "ffmpeg.exe", "bin/ffmpeg.exe")
-        archive.write(media / "MEDIA_BUILD.json", "MEDIA_BUILD.json")
-        for file in (ROOT / "licenses").iterdir():
-            archive.write(file, "licenses/" + file.name)
     sources = media / "sources"
-    with zipfile.ZipFile(output / f"DouyinDownloader-{version}-media-sources.zip", "w", zipfile.ZIP_DEFLATED) as archive:
+    with zipfile.ZipFile(app / "media-sources.zip", "w", zipfile.ZIP_DEFLATED) as archive:
         archive.write(ROOT / "media" / "README.md", "README.md")
         for name in ("sources.json", "toolchain-packages.txt"):
             archive.write(ROOT / "media" / name, "media/" + name)
@@ -79,15 +72,7 @@ def assemble(app: Path, media: Path, output: Path) -> None:
                 archive.write(path, prefix + path.name)
         for path in (ROOT / "licenses").iterdir():
             archive.write(path, "licenses/" + path.name)
-    (output / "BUILD_INFO.json").write_text(json.dumps(info, indent=2) + "\n")
-    for name in ("NOTICE", "THIRD_PARTY_NOTICES.md"):
-        shutil.copy2(ROOT / name, output / name)
-    sums = []
-    for path in sorted(output.iterdir()):
-        if path.is_file() and path.name != "SHA256SUMS.txt":
-            with path.open("rb") as stream:
-                sums.append(f"{hashlib.file_digest(stream, 'sha256').hexdigest()}  {path.name}")
-    (output / "SHA256SUMS.txt").write_text("\n".join(sums) + "\n")
+    zip_tree(app, output / f"DouyinDownloader-{version}-windows-x64.zip")
 
 
 if __name__ == "__main__":

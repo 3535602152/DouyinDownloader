@@ -28,6 +28,5 @@ Resolution order: `IMAGEIO_FFMPEG_EXE`, bundled `ffmpeg/`, development
 `.tools/ffmpeg/`, then PATH. Invalid explicit overrides fail. Application startup
 never downloads components. Recipients may replace the separate executable.
 
-The media component and complete corresponding-source archive accompany the
-same draft release as the application and must remain available to every recipient
-when the release is later published.
+The complete corresponding-source archive is included as `media-sources.zip`
+inside the Windows release package and must remain available to every recipient.

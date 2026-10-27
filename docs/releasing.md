@@ -18,15 +18,15 @@ release candidates as drafts until their validation and manual acceptance finish
    local inspection only; its outputs are not releasable.
 4. Use the build interpreter to run `scripts/package_release.py --app
    build/main/DouyinDownloader --media build/media --output build/release`.
-   It rejects dirty sources and includes licenses, dependency metadata, media
-   sources and SHA-256 sums. Scan the extracted application payload as well.
+   It rejects dirty sources and includes licenses, dependency metadata and the
+   corresponding media sources inside the Windows ZIP. Scan the extracted application payload as well.
 5. Re-extract the application ZIP to a new folder, run `--self-test` with a new
    `DOUYIN_DOWNLOADER_DATA_DIR`, and verify UI startup and restart persistence.
    Phone QR confirmation and downloading content the tester may save require
    human participation; record those results separately from offline checks.
 6. Only after checks pass, tag the tested commit `v0.4.0`, push that tag, and
-   create a **draft** release. Upload the app ZIP, media ZIP, source ZIP, build
-   record, notices and checksum list. Verify the uploaded bytes and target SHA.
+   create a **draft** release. Upload only the Windows ZIP. Verify its uploaded
+   SHA-256 digest and target commit. Retain validation records separately.
 7. Run `Verify packaged Windows release` against that draft tag. It downloads
    the ZIP on a fresh GitHub-hosted Windows runner and checks its checksum, tag,
    self-test, real WebView2 window and restart persistence before sign-off.
