@@ -38,9 +38,13 @@ jobs:
           if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+$') { throw 'Invalid version tag' }
           $name = "DouyinDownloader-$($env:RELEASE_TAG.Substring(1))-windows-x64.zip"
           New-Item -ItemType Directory -Force -Path build/payload | Out-Null
-          gh release download $env:RELEASE_TAG --pattern $name --pattern SHA256SUMS.txt --dir build/payload
+          $release = gh release view $env:RELEASE_TAG --json assets | ConvertFrom-Json
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          $expected = ((Get-Content build/payload/SHA256SUMS.txt | Where-Object { $_.EndsWith("  $name") }) -split '  ')[0]
+          $asset = @($release.assets | Where-Object { $_.name -eq $name })
+          if ($asset.Count -ne 1 -or $asset[0].digest -notmatch '^sha256:([0-9a-f]{64})$') { throw 'Missing asset digest' }
+          $expected = $Matches[1]
+          gh release download $env:RELEASE_TAG --pattern $name --dir build/payload
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           if ((Get-FileHash "build/payload/$name" -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expected) { throw 'Payload checksum mismatch' }
           Expand-Archive -LiteralPath "build/payload/$name" -DestinationPath build/payload/app
           $info = Get-Content build/payload/app/BUILD_INFO.json -Raw | ConvertFrom-Json
