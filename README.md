@@ -41,7 +41,3 @@ uv run --locked --extra browser python desktop_app.py
 ```
 
 源码运行时，音乐转 MP3 需要另行配置 FFmpeg，详情见 [媒体组件说明](media/README.md)。开发与测试方法见 [CONTRIBUTING.md](CONTRIBUTING.md)。
-
-## 说明
-
-本项目基于 [jiji262/douyin-downloader](https://github.com/jiji262/douyin-downloader) 开发，与抖音及字节跳动无隶属关系。原创修改采用 MIT 许可，第三方组件的许可和来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
